@@ -10,6 +10,8 @@ import (
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/9gag"
 	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
+	_ "github.com/go-telegram-bot/yatzie/plugins/google"
+
 	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hal"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
