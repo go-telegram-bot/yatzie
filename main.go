@@ -14,6 +14,8 @@ import (
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hal"
+	_ "github.com/go-telegram-bot/yatzie/plugins/imdb"
+
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
 	_ "github.com/go-telegram-bot/yatzie/plugins/help"
 	_ "github.com/go-telegram-bot/yatzie/plugins/norris"
