@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	_ "github.com/go-telegram-bot/yatzie/plugins/nsfw"
+	"time"
+
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
-	"time"
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/9gag"
 	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
@@ -15,6 +15,7 @@ import (
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
 	_ "github.com/go-telegram-bot/yatzie/plugins/help"
 	_ "github.com/go-telegram-bot/yatzie/plugins/norris"
+	_ "github.com/go-telegram-bot/yatzie/plugins/nsfw"
 )
 
 func main() {

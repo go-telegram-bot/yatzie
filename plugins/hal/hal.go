@@ -41,7 +41,7 @@ type MyPlugin struct {
 	brainOut <-chan string
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message telebot.Message) {
+func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if !strings.HasPrefix(message.Text, config.CommandPrefix) && !util.MatchAnyURL(message.Text) {
 		text := strings.Replace(message.Text, "@"+bot.Identity.Username, "", -1)
 		// then call hal for random answers

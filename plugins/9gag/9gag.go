@@ -24,7 +24,7 @@ type MyPlugin struct {
 	//whatever
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message telebot.Message) {
+func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 
 	if message.Text == config.CommandPrefix+"gag" {
 		gags, err := getImages("http://api-9gag.herokuapp.com/")

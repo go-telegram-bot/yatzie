@@ -12,7 +12,7 @@ type MyPlugin struct {
 	//whatever
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message telebot.Message) {
+func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if strings.Contains(message.Text, config.CommandPrefix+"doge") {
 		doge := message.Text
 		doge = strings.Replace(doge, config.CommandPrefix+"doge ", "", -1)

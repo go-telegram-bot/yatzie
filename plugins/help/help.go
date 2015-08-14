@@ -3,6 +3,7 @@ package help
 import (
 	"bytes"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
+	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 	"math/rand"
 	"sort"
@@ -19,7 +20,7 @@ type MyPlugin struct {
 	//whatever
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message telebot.Message) {
+func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if message.Text == config.CommandPrefix+"help" || message.Text == config.CommandPrefix+"start" {
 		mk := make([]string, len(plugin_registry.Commands))
 		i := 0

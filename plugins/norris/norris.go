@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
+	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 	"net/http"
 )
@@ -23,7 +24,7 @@ type MyPlugin struct {
 	//whatever
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message telebot.Message) {
+func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 
 	if message.Text == config.CommandPrefix+"norris" {
 		res, _ := getJoke("http://api.icndb.com/jokes/random")

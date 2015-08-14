@@ -1,18 +1,12 @@
 package plugin_registry
 
 import (
+	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 )
 
-//Configuration needed for plugins and bot
-type Config struct {
-	Token         string
-	CommandPrefix string
-	Eloquens      bool
-}
-
 type TelegramPlugin interface {
-	Run(bot *telebot.Bot, config Config, message telebot.Message)
+	Run(bot *telebot.Bot, config util.Config, message telebot.Message)
 }
 
 // These are are registered plugins
