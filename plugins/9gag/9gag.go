@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
-			"github.com/go-telegram-bot/yatzie/shared/utils"
+	"github.com/go-telegram-bot/yatzie/shared/utils"
 
 	"github.com/tucnak/telebot"
 	"log"
@@ -30,7 +30,7 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message 
 		gags, err := getImages("http://api-9gag.herokuapp.com/")
 		if err != nil {
 			//bot.SendMessage(message.Chat, strings.Replace(gags[rand.Intn(len(gags))].Src, `\/`, "/", -1), nil)
-						util.SendPhoto( strings.Replace(gags[rand.Intn(len(gags))].Src, `\/`, "/", -1),message,bot )
+			util.SendPhoto(strings.Replace(gags[rand.Intn(len(gags))].Src, `\/`, "/", -1), message, bot)
 
 		}
 

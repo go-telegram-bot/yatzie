@@ -2,7 +2,7 @@ package dogr
 
 import (
 	"github.com/go-telegram-bot/yatzie/shared/registry"
-		"github.com/go-telegram-bot/yatzie/shared/utils"
+	"github.com/go-telegram-bot/yatzie/shared/utils"
 
 	"github.com/tucnak/telebot"
 	"strings"
@@ -19,7 +19,7 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message 
 		doge = strings.Replace(doge, " ", "/", -1)
 		//bot.SendMessage(message.Chat,
 		//	"http://dogr.io/"+doge+".png", nil)
-			util.SendPhoto( "http://dogr.io/"+doge+".png",message,bot )
+		util.SendPhoto("http://dogr.io/"+doge+".png", message, bot)
 	}
 }
 
