@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
+		"github.com/go-telegram-bot/yatzie/shared/utils"
+
 	"github.com/tucnak/telebot"
 	"log"
 	"math/rand"
@@ -34,7 +36,8 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message 
 		url := "http://media.obutts.ru/"
 
 		for _, i := range boobs {
-			bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
+			//bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
+			util.SendPhoto(url+strings.Replace(i.Preview, "_preview", "", -1),message,bot  )
 
 		}
 
@@ -47,10 +50,9 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message 
 		copy(unionboobs, boobs)
 		copy(unionboobs[len(boobs):], boobs2)
 		url := "http://danbooru.donmai.us"
-
-		bot.SendMessage(message.Chat,
-			url+unionboobs[rand.Intn(len(unionboobs))].Url, nil)
-
+		util.SendPhoto(url+unionboobs[rand.Intn(len(unionboobs))].Url,message,bot)
+		//bot.SendMessage(message.Chat,
+		//	url+unionboobs[rand.Intn(len(unionboobs))].Url, nil)
 	}
 
 	if message.Text == config.CommandPrefix+"boobs" {
@@ -58,7 +60,8 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config plugin_registry.Config, message 
 		url := "http://media.oboobs.ru/"
 
 		for _, i := range boobs {
-			bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
+			//bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
+			util.SendPhoto( url+strings.Replace(i.Preview, "_preview", "", -1),message,bot )
 		}
 
 	}
