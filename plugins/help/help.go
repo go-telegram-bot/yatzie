@@ -36,7 +36,7 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 		}
 
 		bot.SendMessage(message.Chat,
-			RandomQuip()+" "+message.Sender.FirstName+"\n Those are my commands: \n"+buffer.String(), nil)
+			util.RandomFromArray(quips)+", "+message.Sender.FirstName+"\n Those are my commands: \n"+buffer.String(), nil)
 	}
 }
 func RandomQuip() string {

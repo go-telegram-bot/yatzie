@@ -6,7 +6,6 @@ import (
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 
-	"math/rand"
 	"os"
 	"strings"
 	"time"
@@ -30,10 +29,6 @@ var quips = []string{
 	"Giggity!",
 }
 
-func RandomQuip() string {
-	return quips[rand.Intn(len(quips))]
-}
-
 const MarkovChainOrder int = 3
 
 type MyPlugin struct {
@@ -49,7 +44,7 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 			m.brainIn <- text
 			res := <-m.brainOut
 			if res == "" && config.Eloquens == true {
-				bot.SendMessage(message.Chat, RandomQuip(), nil)
+				bot.SendMessage(message.Chat, util.RandomFromArray(quips), nil)
 
 			} else {
 				bot.SendMessage(message.Chat,
@@ -57,7 +52,7 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 
 			}
 		} else {
-			bot.SendMessage(message.Chat, RandomQuip(), nil)
+			bot.SendMessage(message.Chat, util.RandomFromArray(quips), nil)
 		}
 
 	}
