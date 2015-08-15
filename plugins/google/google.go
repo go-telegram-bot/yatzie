@@ -2,7 +2,6 @@ package google
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 
@@ -65,8 +64,6 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 func search(url string) (Response, error) {
 	var data Response
 	r, err := http.Get(url)
-	fmt.Println(url)
-
 	if err != nil {
 		return data, err
 	}
