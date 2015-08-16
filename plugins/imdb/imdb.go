@@ -2,13 +2,12 @@ package imdb
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 
 	"github.com/tucnak/telebot"
+	"io"
 	"log"
-	"net/http"
 	"strings"
 )
 
@@ -34,25 +33,21 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 		imdbsearch = strings.Replace(imdbsearch, config.CommandPrefix+"imdb ", "", -1)
 		imdbsearch = strings.Replace(imdbsearch, " ", "%20", -1)
 
-		imdb, _ := search("http://www.imdbapi.com/?t=" + imdbsearch)
+		util.DecodeJson("http://www.imdbapi.com/?t="+imdbsearch, func(body io.ReadCloser) bool {
+			var imdb Movie
+			err := json.NewDecoder(body).Decode(&imdb)
 
-		bot.SendMessage(message.Chat, imdb.Title+" - "+imdb.Year+"\n"+imdb.Genre+" - "+imdb.Duration+"\n"+imdb.Image+"\n"+"http://imdb.com/title/"+imdb.Id, nil)
+			bot.SendMessage(message.Chat, imdb.Title+" - "+imdb.Year+"\n"+imdb.Genre+" - "+imdb.Duration+"\n"+imdb.Image+"\n"+"http://imdb.com/title/"+imdb.Id, nil)
+
+			if err != nil {
+				return false
+			} else {
+				return true
+			}
+		})
 
 	}
 
-}
-
-func search(url string) (Movie, error) {
-	var data Movie
-	r, err := http.Get(url)
-	fmt.Println(url)
-
-	if err != nil {
-		return data, err
-	}
-	defer r.Body.Close()
-	err = json.NewDecoder(r.Body).Decode(&data)
-	return data, err
 }
 
 func init() {

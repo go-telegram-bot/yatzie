@@ -11,7 +11,6 @@ import (
 	. "github.com/mattn/go-getopt"
 	"github.com/tucnak/telebot"
 
-	_ "github.com/go-telegram-bot/yatzie/plugins/9gag"
 	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
 	_ "github.com/go-telegram-bot/yatzie/plugins/google"
 
@@ -20,6 +19,8 @@ import (
 	_ "github.com/go-telegram-bot/yatzie/plugins/hal"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
 	_ "github.com/go-telegram-bot/yatzie/plugins/help"
+	_ "github.com/go-telegram-bot/yatzie/plugins/xkcd"
+
 	_ "github.com/go-telegram-bot/yatzie/plugins/imdb"
 	_ "github.com/go-telegram-bot/yatzie/plugins/norris"
 	_ "github.com/go-telegram-bot/yatzie/plugins/nsfw"
@@ -29,7 +30,7 @@ func main() {
 
 	var c int
 	var configurationFile = "telegram-config.json"
-	var logFile = "telebot.log"
+	var logFile string
 	OptErr = 0
 	for {
 		if c = Getopt("c:l:h"); c == EOF {
@@ -49,14 +50,16 @@ func main() {
 
 	config, err := util.LoadConfig(configurationFile)
 
-	//Set logging to file
-	f, err := os.OpenFile(logFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatal("error opening file: %v", err)
-	}
-	defer f.Close()
+	if logFile != "" {
+		//Set logging to file
+		f, err := os.OpenFile(logFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		if err != nil {
+			log.Fatal("error opening file: %v", err)
+		}
+		defer f.Close()
 
-	log.SetOutput(f)
+		log.SetOutput(f)
+	}
 
 	bot, err := telebot.NewBot(config.Token)
 	if config.Token != "" {

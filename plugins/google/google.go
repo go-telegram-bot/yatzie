@@ -6,8 +6,8 @@ import (
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 
 	"github.com/tucnak/telebot"
+	"io"
 	"log"
-	"net/http"
 	"strings"
 )
 
@@ -35,12 +35,21 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 		imgsearch = strings.Replace(imgsearch, config.CommandPrefix+"imgsearch ", "", -1)
 		imgsearch = strings.Replace(imgsearch, " ", "%20", -1)
 
-		imgs, _ := search("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + imgsearch)
+		util.DecodeJson("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+imgsearch, func(body io.ReadCloser) bool {
+			var data Response
+			err := json.NewDecoder(body).Decode(&data)
 
-		for _, i := range imgs.Response.Results {
-			util.SendPhoto(i.Url, message, bot)
-			log.Println("Found " + i.Title)
-		}
+			for _, i := range data.Response.Results {
+				util.SendPhoto(i.Url, message, bot)
+				log.Println("Found " + i.Title)
+			}
+
+			if err != nil {
+				return false
+			} else {
+				return true
+			}
+		})
 
 	}
 
@@ -50,26 +59,23 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 		websearch = strings.Replace(websearch, config.CommandPrefix+"search ", "", -1)
 		websearch = strings.Replace(websearch, " ", "%20", -1)
 
-		urls, _ := search("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=" + websearch)
+		util.DecodeJson("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q="+websearch, func(body io.ReadCloser) bool {
+			var data Response
+			err := json.NewDecoder(body).Decode(&data)
 
-		for _, i := range urls.Response.Results {
-			bot.SendMessage(message.Chat, i.Title+" - "+i.Url, nil)
-			log.Println("Found " + i.Title)
-		}
+			for _, i := range data.Response.Results {
+				bot.SendMessage(message.Chat, i.Title+" - "+i.Url, nil)
+				log.Println("Found " + i.Title)
+			}
+			if err != nil {
+				return false
+			} else {
+				return true
+			}
+		})
 
 	}
 
-}
-
-func search(url string) (Response, error) {
-	var data Response
-	r, err := http.Get(url)
-	if err != nil {
-		return data, err
-	}
-	defer r.Body.Close()
-	err = json.NewDecoder(r.Body).Decode(&data)
-	return data, err
 }
 
 func init() {
