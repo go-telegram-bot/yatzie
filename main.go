@@ -73,10 +73,12 @@ func main() {
 
 	messages := make(chan telebot.Message)
 	bot.Listen(messages, 1*time.Second)
+	plugin_registry.Config = config
+	plugin_registry.Bot = bot
 
 	for message := range messages {
 		for _, d := range plugin_registry.Plugins {
-			go d.Run(bot, config, message)
+			go d.Run(message)
 		}
 	}
 }

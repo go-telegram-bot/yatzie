@@ -2,14 +2,15 @@ package hello
 
 import (
 	"github.com/go-telegram-bot/yatzie/shared/registry"
-	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 )
 
 type HelloPlugin struct {
 }
 
-func (m *HelloPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *HelloPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if message.Text == config.CommandPrefix+"hi" {
 		bot.SendMessage(message.Chat,
 			"Hello, "+message.Sender.FirstName+"!", nil)

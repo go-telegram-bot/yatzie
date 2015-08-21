@@ -21,7 +21,9 @@ var quips = []string{
 type MagicBallPlugin struct {
 }
 
-func (m *MagicBallPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *MagicBallPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if strings.Contains(message.Text, config.CommandPrefix+"8ball") {
 		bot.SendMessage(message.Chat,
 			util.RandomFromArray(quips), nil)

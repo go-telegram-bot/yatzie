@@ -26,8 +26,9 @@ type HentaiJson []HentaiImage
 type NSFWPlugin struct {
 }
 
-func (m *NSFWPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
-
+func (m *NSFWPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if message.Text == config.CommandPrefix+"butts" {
 
 		util.DecodeJson("http://api.obutts.ru/noise/1", func(body io.ReadCloser) bool {

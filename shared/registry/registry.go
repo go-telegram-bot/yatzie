@@ -6,12 +6,14 @@ import (
 )
 
 type TelegramPlugin interface {
-	Run(bot *telebot.Bot, config util.Config, message telebot.Message)
+	Run(message telebot.Message)
 }
 
 // These are are registered plugins
 var Plugins = []TelegramPlugin{}
 var Commands = make(map[string]string)
+var Config util.Config
+var Bot *telebot.Bot
 
 // Register a Plugin
 func RegisterPlugin(p TelegramPlugin) {

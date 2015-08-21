@@ -11,6 +11,7 @@ type Config struct {
 	Token         string
 	CommandPrefix string
 	Eloquens      bool
+	HALBrainfile  string
 }
 
 func LoadConfig(f string) (Config, error) {

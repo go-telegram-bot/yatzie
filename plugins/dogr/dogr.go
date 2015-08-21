@@ -10,7 +10,9 @@ import (
 
 type DogrPlugin struct{}
 
-func (m *DogrPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *DogrPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if strings.Contains(message.Text, config.CommandPrefix+"doge") {
 		doge := message.Text
 		doge = strings.Replace(doge, config.CommandPrefix+"doge ", "", -1)

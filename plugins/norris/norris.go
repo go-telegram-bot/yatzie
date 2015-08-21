@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
-	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 	"net/http"
 )
@@ -23,8 +22,9 @@ type Joke struct {
 type NorrisPlugin struct {
 }
 
-func (m *NorrisPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
-
+func (m *NorrisPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if message.Text == config.CommandPrefix+"norris" {
 		res, _ := getJoke("http://api.icndb.com/jokes/random")
 		bot.SendMessage(message.Chat, res.Value.Joke, nil)

@@ -21,7 +21,9 @@ type Result struct {
 type XkcdPlugin struct {
 }
 
-func (m *XkcdPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *XkcdPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if strings.Contains(message.Text, config.CommandPrefix+"xkcd") {
 		xkcd := message.Text
 		log.Println("Searching " + xkcd)

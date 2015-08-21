@@ -23,8 +23,9 @@ type GagsJson []GagJson
 type GagPlugin struct {
 }
 
-func (m *GagPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
-
+func (m *GagPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if message.Text == config.CommandPrefix+"gag" {
 		gags, err := getImages("http://api-9gag.herokuapp.com/")
 		if err != nil {

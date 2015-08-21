@@ -18,7 +18,9 @@ var quips = []string{
 type HelpPlugin struct {
 }
 
-func (m *HelpPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *HelpPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if message.Text == config.CommandPrefix+"help" || message.Text == config.CommandPrefix+"start" {
 		mk := make([]string, len(plugin_registry.Commands))
 		i := 0

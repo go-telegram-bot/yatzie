@@ -26,7 +26,9 @@ type IMDBPlugin struct {
 	//whatever
 }
 
-func (m *IMDBPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *IMDBPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if strings.Contains(message.Text, config.CommandPrefix+"imdb") {
 		imdbsearch := message.Text
 		log.Println("Searching " + imdbsearch)

@@ -36,7 +36,9 @@ type HalPlugin struct {
 	brainOut <-chan string
 }
 
-func (m *HalPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *HalPlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if !strings.HasPrefix(message.Text, config.CommandPrefix) && !util.MatchAnyURL(message.Text) {
 		text := strings.Replace(message.Text, "@"+bot.Identity.Username, "", -1)
 		// then call hal for random answers

@@ -27,7 +27,9 @@ type Result struct {
 type GooglePlugin struct {
 }
 
-func (m *GooglePlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *GooglePlugin) Run(message telebot.Message) {
+	bot := plugin_registry.Bot
+	config := plugin_registry.Config
 	if strings.Contains(message.Text, config.CommandPrefix+"imgsearch") {
 		imgsearch := message.Text
 		log.Println("Searching " + imgsearch)
