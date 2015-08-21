@@ -8,11 +8,9 @@ import (
 	"strings"
 )
 
-type MyPlugin struct {
-	//whatever
-}
+type DogrPlugin struct{}
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *DogrPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if strings.Contains(message.Text, config.CommandPrefix+"doge") {
 		doge := message.Text
 		doge = strings.Replace(doge, config.CommandPrefix+"doge ", "", -1)
@@ -24,8 +22,6 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&DogrPlugin{})
 	plugin_registry.RegisterCommand("doge bla bla bla", "Generate a doge with your text")
-
 }

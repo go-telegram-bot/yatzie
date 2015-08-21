@@ -22,11 +22,11 @@ type Movie struct {
 	Image    string `json:"Poster"`
 }
 
-type MyPlugin struct {
+type IMDBPlugin struct {
 	//whatever
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *IMDBPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if strings.Contains(message.Text, config.CommandPrefix+"imdb") {
 		imdbsearch := message.Text
 		log.Println("Searching " + imdbsearch)
@@ -51,8 +51,6 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&IMDBPlugin{})
 	plugin_registry.RegisterCommand("imdb", "Search a movie on imdb")
-
 }

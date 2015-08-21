@@ -23,11 +23,10 @@ type HentaiImage struct {
 }
 type HentaiJson []HentaiImage
 
-type MyPlugin struct {
-	//whatever
+type NSFWPlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *NSFWPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 
 	if message.Text == config.CommandPrefix+"butts" {
 
@@ -117,10 +116,8 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&NSFWPlugin{})
 	plugin_registry.RegisterCommand("hentai", "Display some random hentai image")
 	plugin_registry.RegisterCommand("boobs", "Display some random BOOTY image")
 	plugin_registry.RegisterCommand("butts", "Display some random BUUTTTSY image")
-
 }

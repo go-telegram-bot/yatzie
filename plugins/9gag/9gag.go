@@ -20,11 +20,10 @@ type GagJson struct {
 }
 type GagsJson []GagJson
 
-type MyPlugin struct {
-	//whatever
+type GagPlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *GagPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 
 	if message.Text == config.CommandPrefix+"gag" {
 		gags, err := getImages("http://api-9gag.herokuapp.com/")
@@ -56,7 +55,7 @@ func getImages(url string) (GagsJson, error) {
 }
 
 func init() {
-	my := &MyPlugin{}
+	my := &GagPlugin{}
 	plugin_registry.RegisterPlugin(my)
 	plugin_registry.RegisterCommand("gag", "Display some random gag ")
 

@@ -38,7 +38,6 @@ func main() {
 		}
 		switch c {
 		case 'c':
-
 			configurationFile = OptArg
 		case 'l':
 			logFile = OptArg

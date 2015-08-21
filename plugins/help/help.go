@@ -5,7 +5,6 @@ import (
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
-	"math/rand"
 	"sort"
 )
 
@@ -16,11 +15,10 @@ var quips = []string{
 	"I COMMAND YOU, REMEMBER THAT",
 }
 
-type MyPlugin struct {
-	//whatever
+type HelpPlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *HelpPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if message.Text == config.CommandPrefix+"help" || message.Text == config.CommandPrefix+"start" {
 		mk := make([]string, len(plugin_registry.Commands))
 		i := 0
@@ -39,11 +37,8 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 			util.RandomFromArray(quips)+", "+message.Sender.FirstName+"\n Those are my commands: \n"+buffer.String(), nil)
 	}
 }
-func RandomQuip() string {
-	return quips[rand.Intn(len(quips))]
-}
+
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&HelpPlugin{})
 	plugin_registry.RegisterCommand("help", "Display this help")
 }

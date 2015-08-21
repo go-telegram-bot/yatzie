@@ -24,11 +24,10 @@ type Result struct {
 	Url   string `json:"url"`
 }
 
-type MyPlugin struct {
-	//whatever
+type GooglePlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *GooglePlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if strings.Contains(message.Text, config.CommandPrefix+"imgsearch") {
 		imgsearch := message.Text
 		log.Println("Searching " + imgsearch)
@@ -79,9 +78,7 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&GooglePlugin{})
 	plugin_registry.RegisterCommand("imgsearch", "Search images on google")
 	plugin_registry.RegisterCommand("search", "Search on google")
-
 }

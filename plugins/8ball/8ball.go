@@ -18,11 +18,10 @@ var quips = []string{
 	"Very doubtful",
 }
 
-type MyPlugin struct {
-	//whatever
+type MagicBallPlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *MagicBallPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if strings.Contains(message.Text, config.CommandPrefix+"8ball") {
 		bot.SendMessage(message.Chat,
 			util.RandomFromArray(quips), nil)
@@ -30,8 +29,6 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&MagicBallPlugin{})
 	plugin_registry.RegisterCommand("8ball", "Ask me a question")
-
 }

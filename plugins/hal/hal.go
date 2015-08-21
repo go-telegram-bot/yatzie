@@ -31,12 +31,12 @@ var quips = []string{
 
 const MarkovChainOrder int = 3
 
-type MyPlugin struct {
+type HalPlugin struct {
 	brainIn  chan<- string
 	brainOut <-chan string
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *HalPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if !strings.HasPrefix(message.Text, config.CommandPrefix) && !util.MatchAnyURL(message.Text) {
 		text := strings.Replace(message.Text, "@"+bot.Identity.Username, "", -1)
 		// then call hal for random answers
@@ -54,7 +54,6 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 		} else {
 			bot.SendMessage(message.Chat, util.RandomFromArray(quips), nil)
 		}
-
 	}
 }
 
@@ -68,6 +67,5 @@ func init() {
 		brain = microhal.LoadMicrohal(brainFile)
 	}
 	brainIn, brainOut := brain.Start(10000*time.Millisecond, 250)
-	my := &MyPlugin{brainIn: brainIn, brainOut: brainOut}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&HalPlugin{brainIn: brainIn, brainOut: brainOut})
 }

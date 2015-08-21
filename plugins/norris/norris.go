@@ -20,11 +20,10 @@ type Joke struct {
 	Categories []string `json:"categories"`
 }
 
-type MyPlugin struct {
-	//whatever
+type NorrisPlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *NorrisPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 
 	if message.Text == config.CommandPrefix+"norris" {
 		res, _ := getJoke("http://api.icndb.com/jokes/random")
@@ -48,8 +47,6 @@ func getJoke(url string) (Response, error) {
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&NorrisPlugin{})
 	plugin_registry.RegisterCommand("norris", "Get a kicking ass chuck norris quote!")
-
 }

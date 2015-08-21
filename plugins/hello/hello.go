@@ -6,11 +6,10 @@ import (
 	"github.com/tucnak/telebot"
 )
 
-type MyPlugin struct {
-	//whatever
+type HelloPlugin struct {
 }
 
-func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
+func (m *HelloPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Message) {
 	if message.Text == config.CommandPrefix+"hi" {
 		bot.SendMessage(message.Chat,
 			"Hello, "+message.Sender.FirstName+"!", nil)
@@ -18,8 +17,6 @@ func (m *MyPlugin) Run(bot *telebot.Bot, config util.Config, message telebot.Mes
 }
 
 func init() {
-	my := &MyPlugin{}
-	plugin_registry.RegisterPlugin(my)
+	plugin_registry.RegisterPlugin(&HelloPlugin{})
 	plugin_registry.RegisterCommand("hi", "Says hello")
-
 }
