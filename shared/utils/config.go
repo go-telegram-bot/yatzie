@@ -8,10 +8,11 @@ import (
 
 //Configuration needed for plugins and bot
 type Config struct {
-	Token         string
-	CommandPrefix string
-	Eloquens      bool
-	HALBrainfile  string
+	Token               string
+	CommandPrefix       string
+	Eloquens            bool
+	HALBrainfile        string
+	HALMarkovChainOrder int
 }
 
 func LoadConfig(f string) (Config, error) {
