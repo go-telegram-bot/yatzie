@@ -1,3 +1,4 @@
+// Plugin register themselves here, the registry keep tracks of plugins to redirect the messages
 package plugin_registry
 
 import (
