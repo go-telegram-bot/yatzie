@@ -46,7 +46,7 @@ func main() {
 			os.Exit(1)
 		}
 	}
-
+	fmt.Println("Configuration file: " + configurationFile)
 	config, err := util.LoadConfig(configurationFile)
 
 	if logFile != "" {
@@ -64,8 +64,10 @@ func main() {
 	if config.Token != "" {
 		fmt.Println("Token: " + config.Token)
 	}
-	fmt.Println("Configuration file: " + configurationFile)
-	fmt.Println("Log file: " + logFile)
+
+	if logFile != "" {
+		fmt.Println("Log file: " + logFile)
+	}
 
 	if err != nil {
 		return
