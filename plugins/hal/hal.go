@@ -39,13 +39,22 @@ type HalPlugin struct {
 	MarkovChainOrder int
 }
 
+func (m *HalPlugin) OnStart() {
+	if m.started == false {
+		loadHAL(m)
+	}
+	if m.started == true {
+		log.Println("[HalPlugin] Started")
+	} else {
+		log.Println("[HalPlugin] Something went really wrong, please check if you have correctly configured the HAL plugin")
+
+	}
+}
+
 func (m *HalPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config
 	if !strings.HasPrefix(message.Text, config.CommandPrefix) && !util.MatchAnyURL(message.Text) {
-		if m.started == false {
-			loadHAL(m)
-		}
 		text := strings.Replace(message.Text, "@"+bot.Identity.Username, "", -1)
 		// then call hal for random answers
 		if len(text) > m.MarkovChainOrder {

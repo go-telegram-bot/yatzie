@@ -3,9 +3,15 @@ package hello
 import (
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/tucnak/telebot"
+
+	"log"
 )
 
 type HelloPlugin struct {
+}
+
+func (m *HelloPlugin) OnStart() {
+	log.Println("[HelloPlugin] Started")
 }
 
 func (m *HelloPlugin) Run(message telebot.Message) {

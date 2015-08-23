@@ -7,6 +7,7 @@ import (
 
 	"github.com/tucnak/telebot"
 	"io"
+	"log"
 	"math/rand"
 	"strings"
 )
@@ -24,6 +25,10 @@ type HentaiImage struct {
 type HentaiJson []HentaiImage
 
 type NSFWPlugin struct {
+}
+
+func (m *NSFWPlugin) OnStart() {
+	log.Println("[NSFWPlugin] Started")
 }
 
 func (m *NSFWPlugin) Run(message telebot.Message) {

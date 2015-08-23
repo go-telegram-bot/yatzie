@@ -21,6 +21,10 @@ type Result struct {
 type XkcdPlugin struct {
 }
 
+func (m *XkcdPlugin) OnStart() {
+	log.Println("[XkcdPlugin] Started")
+}
+
 func (m *XkcdPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config

@@ -1,10 +1,12 @@
 package help
 
 import (
-	"bytes"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
+
+	"bytes"
+	"log"
 	"sort"
 )
 
@@ -16,6 +18,10 @@ var quips = []string{
 }
 
 type HelpPlugin struct {
+}
+
+func (m *HelpPlugin) OnStart() {
+	log.Println("[HelpPlugin] Started")
 }
 
 func (m *HelpPlugin) Run(message telebot.Message) {

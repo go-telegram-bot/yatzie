@@ -8,6 +8,7 @@ import (
 
 type TelegramPlugin interface {
 	Run(message telebot.Message)
+	OnStart()
 }
 
 // These are are registered plugins

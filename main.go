@@ -11,19 +11,18 @@ import (
 	. "github.com/mattn/go-getopt"
 	"github.com/tucnak/telebot"
 
-	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
-	_ "github.com/go-telegram-bot/yatzie/plugins/google"
-
 	_ "github.com/go-telegram-bot/yatzie/plugins/8ball"
 	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
+	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
+	_ "github.com/go-telegram-bot/yatzie/plugins/google"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hal"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
 	_ "github.com/go-telegram-bot/yatzie/plugins/help"
-	_ "github.com/go-telegram-bot/yatzie/plugins/xkcd"
-
 	_ "github.com/go-telegram-bot/yatzie/plugins/imdb"
 	_ "github.com/go-telegram-bot/yatzie/plugins/norris"
 	_ "github.com/go-telegram-bot/yatzie/plugins/nsfw"
+	_ "github.com/go-telegram-bot/yatzie/plugins/xkcd"
+
 )
 
 func main() {
@@ -78,6 +77,12 @@ func main() {
 	plugin_registry.Config = config
 	plugin_registry.Bot = bot
 
+	// Bootstrapper for plugins
+	for _, d := range plugin_registry.Plugins {
+		go d.OnStart()
+	}
+
+	// Processing messages
 	for message := range messages {
 		for _, d := range plugin_registry.Plugins {
 			go d.Run(message)

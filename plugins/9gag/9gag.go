@@ -23,6 +23,10 @@ type GagsJson []GagJson
 type GagPlugin struct {
 }
 
+func (m *GagPlugin) OnStart() {
+	log.Println("[GagPlugin] Started")
+}
+
 func (m *GagPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config

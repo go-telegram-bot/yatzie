@@ -4,6 +4,7 @@ import (
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
+	"log"
 	"strings"
 )
 
@@ -19,6 +20,10 @@ var quips = []string{
 }
 
 type MagicBallPlugin struct {
+}
+
+func (m *MagicBallPlugin) OnStart() {
+	log.Println("[MagicBallPlugin] Started")
 }
 
 func (m *MagicBallPlugin) Run(message telebot.Message) {

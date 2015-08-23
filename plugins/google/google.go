@@ -27,6 +27,10 @@ type Result struct {
 type GooglePlugin struct {
 }
 
+func (m *GooglePlugin) OnStart() {
+	log.Println("[GooglePlugin] Started")
+}
+
 func (m *GooglePlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config

@@ -26,6 +26,10 @@ type IMDBPlugin struct {
 	//whatever
 }
 
+func (m *IMDBPlugin) OnStart() {
+	log.Println("[IMDB] Started")
+}
+
 func (m *IMDBPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config

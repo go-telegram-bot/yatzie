@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/tucnak/telebot"
+	"log"
 	"net/http"
 )
 
@@ -20,6 +21,10 @@ type Joke struct {
 }
 
 type NorrisPlugin struct {
+}
+
+func (m *NorrisPlugin) OnStart() {
+	log.Println("[NorrisPlugin] Started")
 }
 
 func (m *NorrisPlugin) Run(message telebot.Message) {

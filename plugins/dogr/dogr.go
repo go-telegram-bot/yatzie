@@ -5,10 +5,16 @@ import (
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 
 	"github.com/tucnak/telebot"
+
+	"log"
 	"strings"
 )
 
 type DogrPlugin struct{}
+
+func (m *DogrPlugin) OnStart() {
+	log.Println("[DogrPlugin] Started")
+}
 
 func (m *DogrPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
