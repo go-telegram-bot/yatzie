@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/go-telegram-bot/yatzie/shared/registry"
@@ -12,8 +13,8 @@ import (
 	"github.com/tucnak/telebot"
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/8ball"
-	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
 	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
+	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
 	_ "github.com/go-telegram-bot/yatzie/plugins/google"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hal"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
@@ -22,7 +23,6 @@ import (
 	_ "github.com/go-telegram-bot/yatzie/plugins/norris"
 	_ "github.com/go-telegram-bot/yatzie/plugins/nsfw"
 	_ "github.com/go-telegram-bot/yatzie/plugins/xkcd"
-
 )
 
 func main() {
@@ -81,6 +81,7 @@ func main() {
 	for _, d := range plugin_registry.Plugins {
 		go d.OnStart()
 	}
+	log.Println(strconv.Itoa(len(plugin_registry.Plugins)) + " plugins loaded")
 
 	// Processing messages
 	for message := range messages {

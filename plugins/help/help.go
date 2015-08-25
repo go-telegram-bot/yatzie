@@ -40,6 +40,11 @@ func (m *HelpPlugin) Run(message telebot.Message) {
 		for _, v := range mk {
 			buffer.WriteString(config.CommandPrefix + v + " - " + plugin_registry.Commands[v] + "\n")
 		}
+		if config.IsAdmin(message.Sender.Username) {
+
+			bot.SendMessage(message.Chat,
+				"OH MASTER! glad to see you again", nil)
+		}
 
 		bot.SendMessage(message.Chat,
 			util.RandomFromArray(quips)+", "+message.Sender.FirstName+"\n Those are my commands: \n"+buffer.String(), nil)

@@ -4,6 +4,9 @@ package plugin_registry
 import (
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
+	"log"
+	"reflect"
+	"strings"
 )
 
 type TelegramPlugin interface {
@@ -12,14 +15,24 @@ type TelegramPlugin interface {
 }
 
 // These are are registered plugins
-var Plugins = []TelegramPlugin{}
+var Plugins = map[string]TelegramPlugin{}
 var Commands = make(map[string]string)
 var Config util.Config
 var Bot *telebot.Bot
 
 // Register a Plugin
 func RegisterPlugin(p TelegramPlugin) {
-	Plugins = append(Plugins, p)
+	Plugins[KeyOf(p)] = p
+}
+
+// Remove a plugin
+func RemovePlugin(plugin string) {
+	delete(Plugins, plugin)
+	log.Println(plugin + " removed from running plugins")
+}
+
+func KeyOf(p TelegramPlugin) string {
+	return strings.TrimPrefix(reflect.TypeOf(p).String(), "*")
 }
 
 // Register a Command exported by a plugin

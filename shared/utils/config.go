@@ -13,6 +13,12 @@ type Config struct {
 	Eloquens            bool
 	HALBrainfile        string
 	HALMarkovChainOrder int
+	Administrators      map[string]bool
+}
+
+func (c *Config) IsAdmin(user string) bool {
+	_, ok := c.Administrators[user]
+	return ok
 }
 
 func LoadConfig(f string) (Config, error) {
