@@ -22,8 +22,17 @@ var quips = []string{
 type MagicBallPlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&MagicBallPlugin{})
+}
+
 func (m *MagicBallPlugin) OnStart() {
 	log.Println("[MagicBallPlugin] Started")
+	plugin_registry.RegisterCommand("8ball", "Ask me a question")
+}
+
+func (m *MagicBallPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("8ball")
 }
 
 func (m *MagicBallPlugin) Run(message telebot.Message) {
@@ -33,9 +42,4 @@ func (m *MagicBallPlugin) Run(message telebot.Message) {
 		bot.SendMessage(message.Chat,
 			util.RandomFromArray(quips), nil)
 	}
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&MagicBallPlugin{})
-	plugin_registry.RegisterCommand("8ball", "Ask me a question")
 }

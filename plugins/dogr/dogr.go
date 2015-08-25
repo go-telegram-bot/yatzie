@@ -12,7 +12,17 @@ import (
 
 type DogrPlugin struct{}
 
+func init() {
+	plugin_registry.RegisterPlugin(&DogrPlugin{})
+}
+
 func (m *DogrPlugin) OnStart() {
+	log.Println("[DogrPlugin] Started")
+	plugin_registry.RegisterCommand("doge bla bla bla", "Generate a doge with your text")
+
+}
+
+func (m *DogrPlugin) OnStop() {
 	log.Println("[DogrPlugin] Started")
 }
 
@@ -27,9 +37,4 @@ func (m *DogrPlugin) Run(message telebot.Message) {
 		//	"http://dogr.io/"+doge+".png", nil)
 		util.SendPhoto("http://dogr.io/"+doge+".png", message, bot)
 	}
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&DogrPlugin{})
-	plugin_registry.RegisterCommand("doge bla bla bla", "Generate a doge with your text")
 }

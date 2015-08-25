@@ -27,8 +27,19 @@ type Result struct {
 type GooglePlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&GooglePlugin{})
+}
+
 func (m *GooglePlugin) OnStart() {
 	log.Println("[GooglePlugin] Started")
+	plugin_registry.RegisterCommand("imgsearch", "Search images on google")
+	plugin_registry.RegisterCommand("search", "Search on google")
+}
+
+func (m *GooglePlugin) OnStop() {
+	plugin_registry.UnregisterCommand("imgsearch")
+	plugin_registry.UnregisterCommand("search")
 }
 
 func (m *GooglePlugin) Run(message telebot.Message) {
@@ -81,10 +92,4 @@ func (m *GooglePlugin) Run(message telebot.Message) {
 
 	}
 
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&GooglePlugin{})
-	plugin_registry.RegisterCommand("imgsearch", "Search images on google")
-	plugin_registry.RegisterCommand("search", "Search on google")
 }

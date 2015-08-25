@@ -27,8 +27,22 @@ type HentaiJson []HentaiImage
 type NSFWPlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&NSFWPlugin{})
+
+}
+
 func (m *NSFWPlugin) OnStart() {
 	log.Println("[NSFWPlugin] Started")
+	plugin_registry.RegisterCommand("hentai", "Display some random hentai image")
+	plugin_registry.RegisterCommand("boobs", "Display some random BOOTY image")
+	plugin_registry.RegisterCommand("butts", "Display some random BUUTTTSY image")
+}
+
+func (m *NSFWPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("hentai")
+	plugin_registry.UnregisterCommand("boobs")
+	plugin_registry.UnregisterCommand("butts")
 }
 
 func (m *NSFWPlugin) Run(message telebot.Message) {
@@ -119,11 +133,4 @@ func (m *NSFWPlugin) Run(message telebot.Message) {
 		})
 
 	}
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&NSFWPlugin{})
-	plugin_registry.RegisterCommand("hentai", "Display some random hentai image")
-	plugin_registry.RegisterCommand("boobs", "Display some random BOOTY image")
-	plugin_registry.RegisterCommand("butts", "Display some random BUUTTTSY image")
 }

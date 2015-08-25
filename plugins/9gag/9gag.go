@@ -23,8 +23,17 @@ type GagsJson []GagJson
 type GagPlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&GagPlugin{})
+}
+
 func (m *GagPlugin) OnStart() {
 	log.Println("[GagPlugin] Started")
+	plugin_registry.RegisterCommand("gag", "Display some random gag ")
+}
+
+func (m *GagPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("gag")
 }
 
 func (m *GagPlugin) Run(message telebot.Message) {
@@ -57,11 +66,4 @@ func getImages(url string) (GagsJson, error) {
 			url + i.Src)
 	}
 	return data, err
-}
-
-func init() {
-	my := &GagPlugin{}
-	plugin_registry.RegisterPlugin(my)
-	plugin_registry.RegisterCommand("gag", "Display some random gag ")
-
 }

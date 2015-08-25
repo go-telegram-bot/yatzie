@@ -21,10 +21,21 @@ type Result struct {
 type XkcdPlugin struct {
 }
 
-func (m *XkcdPlugin) OnStart() {
-	log.Println("[XkcdPlugin] Started")
+func init() {
+	plugin_registry.RegisterPlugin(&XkcdPlugin{})
+
 }
 
+func (m *XkcdPlugin) OnStart() {
+	log.Println("[XkcdPlugin] Started")
+	plugin_registry.RegisterCommand("xkcd", "Get the latest xkcd")
+	plugin_registry.RegisterCommand("xkcd <id>", "show a specific xkcd")
+}
+
+func (m *XkcdPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("xkcd")
+	plugin_registry.UnregisterCommand("xkcd <id>")
+}
 func (m *XkcdPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config
@@ -63,10 +74,4 @@ func (m *XkcdPlugin) Run(message telebot.Message) {
 		})
 	}
 
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&XkcdPlugin{})
-	plugin_registry.RegisterCommand("xkcd", "Get the latest xkcd")
-	plugin_registry.RegisterCommand("xkcd <id>", "show a specific xkcd")
 }

@@ -20,8 +20,19 @@ var quips = []string{
 type HelpPlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&HelpPlugin{})
+}
+
 func (m *HelpPlugin) OnStart() {
 	log.Println("[HelpPlugin] Started")
+	plugin_registry.RegisterCommand("help", "Display this help")
+
+}
+
+func (m *HelpPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("help")
+
 }
 
 func (m *HelpPlugin) Run(message telebot.Message) {
@@ -49,9 +60,4 @@ func (m *HelpPlugin) Run(message telebot.Message) {
 		bot.SendMessage(message.Chat,
 			util.RandomFromArray(quips)+", "+message.Sender.FirstName+"\n Those are my commands: \n"+buffer.String(), nil)
 	}
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&HelpPlugin{})
-	plugin_registry.RegisterCommand("help", "Display this help")
 }

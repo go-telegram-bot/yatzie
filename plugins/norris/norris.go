@@ -23,8 +23,20 @@ type Joke struct {
 type NorrisPlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&NorrisPlugin{})
+}
+
 func (m *NorrisPlugin) OnStart() {
 	log.Println("[NorrisPlugin] Started")
+	plugin_registry.RegisterCommand("norris", "Get a kicking ass chuck norris quote!")
+
+}
+
+func (m *NorrisPlugin) OnStop() {
+	log.Println("[NorrisPlugin] Started")
+	plugin_registry.UnregisterCommand("norris")
+
 }
 
 func (m *NorrisPlugin) Run(message telebot.Message) {
@@ -49,9 +61,4 @@ func getJoke(url string) (Response, error) {
 	defer r.Body.Close()
 	err = json.NewDecoder(r.Body).Decode(&data)
 	return data, err
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&NorrisPlugin{})
-	plugin_registry.RegisterCommand("norris", "Get a kicking ass chuck norris quote!")
 }

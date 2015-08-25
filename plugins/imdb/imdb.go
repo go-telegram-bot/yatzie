@@ -26,8 +26,18 @@ type IMDBPlugin struct {
 	//whatever
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&IMDBPlugin{})
+}
+
 func (m *IMDBPlugin) OnStart() {
 	log.Println("[IMDB] Started")
+	plugin_registry.RegisterCommand("imdb", "Search a movie on imdb")
+
+}
+
+func (m *IMDBPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("imdb")
 }
 
 func (m *IMDBPlugin) Run(message telebot.Message) {
@@ -54,9 +64,4 @@ func (m *IMDBPlugin) Run(message telebot.Message) {
 
 	}
 
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&IMDBPlugin{})
-	plugin_registry.RegisterCommand("imdb", "Search a movie on imdb")
 }

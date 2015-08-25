@@ -39,6 +39,10 @@ type HalPlugin struct {
 	MarkovChainOrder int
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&HalPlugin{})
+}
+
 func (m *HalPlugin) OnStart() {
 	if m.started == false {
 		loadHAL(m)
@@ -48,6 +52,12 @@ func (m *HalPlugin) OnStart() {
 	} else {
 		log.Println("[HalPlugin] Something went really wrong, please check if you have correctly configured the HAL plugin")
 
+	}
+}
+
+func (m *HalPlugin) OnStop() {
+	if m.started == true {
+		log.Println("[HalPlugin] Disabled")
 	}
 }
 
@@ -94,8 +104,4 @@ func loadHAL(m *HalPlugin) {
 	m.brainIn = brainIn
 	m.brainOut = brainOut
 	m.started = true
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&HalPlugin{})
 }

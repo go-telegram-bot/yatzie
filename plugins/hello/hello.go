@@ -10,8 +10,18 @@ import (
 type HelloPlugin struct {
 }
 
+func init() {
+	plugin_registry.RegisterPlugin(&HelloPlugin{})
+}
+
 func (m *HelloPlugin) OnStart() {
 	log.Println("[HelloPlugin] Started")
+	plugin_registry.RegisterCommand("hi", "Says hello")
+
+}
+
+func (m *HelloPlugin) OnStop() {
+	plugin_registry.UnregisterCommand("hi")
 }
 
 func (m *HelloPlugin) Run(message telebot.Message) {
@@ -21,9 +31,4 @@ func (m *HelloPlugin) Run(message telebot.Message) {
 		bot.SendMessage(message.Chat,
 			"Hello, "+message.Sender.FirstName+"!", nil)
 	}
-}
-
-func init() {
-	plugin_registry.RegisterPlugin(&HelloPlugin{})
-	plugin_registry.RegisterCommand("hi", "Says hello")
 }
