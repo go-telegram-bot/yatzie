@@ -23,6 +23,11 @@ Bot Commands
       <td>9GAG for telegram</td>
       <td>/gag: Send random image from 9gag</td>
     </tr>
+        <tr>
+      <td>admin</td>
+      <td>Administration plugin, enable, disable and list active plugins</td>
+      <td>/load [plugin] - Load the specified plugin <br>/unload [plugin] - Unloads the specified plugin<br>/listplugins - List all plugins enabled/disabled</td>
+    </tr>
     <tr>
       <td>dogr</td>
       <td>Create a doge image with words.</td>
@@ -92,7 +97,11 @@ The bot reads a json file for configuration:
         "CommandPrefix" : "/",
         "Eloquens" : true,
         "HALBrainfile" : "Brain.json",
-        "HALMarkovChainOrder" : 3
+        "HALMarkovChainOrder" : 3,
+        "Administrators" : {
+            "telegramusername" : true,
+            "telegramusername2" : true
+        }
 }
 ```
 

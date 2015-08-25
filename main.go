@@ -13,6 +13,7 @@ import (
 	"github.com/tucnak/telebot"
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/8ball"
+	_ "github.com/go-telegram-bot/yatzie/plugins/admin"
 	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
 	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
 	_ "github.com/go-telegram-bot/yatzie/plugins/google"

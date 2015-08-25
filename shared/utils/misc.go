@@ -2,6 +2,7 @@ package util
 
 import (
 	"math/rand"
+	"strings"
 )
 
 func RandomFromArray(array []string) string {
