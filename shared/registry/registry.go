@@ -12,10 +12,12 @@ import (
 type TelegramPlugin interface {
 	Run(message telebot.Message)
 	OnStart()
+	OnStop()
 }
 
 // These are are registered plugins
 var Plugins = map[string]TelegramPlugin{}
+var DisabledPlugins = map[string]TelegramPlugin{}
 var Commands = make(map[string]string)
 var Config util.Config
 var Bot *telebot.Bot
@@ -25,10 +27,41 @@ func RegisterPlugin(p TelegramPlugin) {
 	Plugins[KeyOf(p)] = p
 }
 
-// Remove a plugin
-func RemovePlugin(plugin string) {
-	delete(Plugins, plugin)
-	log.Println(plugin + " removed from running plugins")
+// Disable a plugin
+func DisablePlugin(plugin string) bool {
+	plugin = strings.TrimSpace(plugin)
+	DisabledPlugins[plugin] = Plugins[plugin]
+	_, disabled := DisabledPlugins[plugin]
+	if disabled {
+		delete(Plugins, plugin)
+		DisabledPlugins[plugin].OnStop()
+
+		log.Println(plugin + " removed from running plugins")
+	}
+
+	return disabled
+}
+
+// Enable a plugin
+func EnablePlugin(plugin string) bool {
+	plugin = strings.TrimSpace(plugin)
+
+	_, PluginExists := Plugins[plugin]
+	if PluginExists {
+		return true
+	}
+
+	PluginInstance, InstanceExists := DisabledPlugins[plugin]
+	Plugins[plugin] = PluginInstance
+	if InstanceExists {
+
+		delete(DisabledPlugins, plugin)
+		PluginInstance.OnStart()
+
+		log.Println(plugin + " enabled ")
+		return true
+	}
+	return false
 }
 
 func KeyOf(p TelegramPlugin) string {
@@ -38,4 +71,9 @@ func KeyOf(p TelegramPlugin) string {
 // Register a Command exported by a plugin
 func RegisterCommand(command string, description string) {
 	Commands[command] = description
+}
+
+// UnRegister a Command exported by a plugin
+func UnregisterCommand(command string) {
+	delete(Commands, command)
 }
