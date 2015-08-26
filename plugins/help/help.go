@@ -11,10 +11,15 @@ import (
 )
 
 var quips = []string{
-	"Hello stranger",
-	"Hello Master",
-	"Fuck you bitch",
-	"I COMMAND YOU, REMEMBER THAT",
+	"Hello ",
+	"Retards.. ehm REGARDS ",
+	"Fuck you",
+	"❓",
+}
+
+var answ = []string{
+	"👺",
+	"🙈",
 }
 
 type HelpPlugin struct {
@@ -49,15 +54,10 @@ func (m *HelpPlugin) Run(message telebot.Message) {
 		var buffer bytes.Buffer
 
 		for _, v := range mk {
-			buffer.WriteString(config.CommandPrefix + v + " - " + plugin_registry.Commands[v] + "\n")
-		}
-		if config.IsAdmin(message.Sender.Username) {
-
-			bot.SendMessage(message.Chat,
-				"OH MASTER! glad to see you again", nil)
+			buffer.WriteString("▪️" + config.CommandPrefix + v + " - " + plugin_registry.Commands[v] + "\n")
 		}
 
 		bot.SendMessage(message.Chat,
-			util.RandomFromArray(quips)+", "+message.Sender.FirstName+"\n Those are my commands: \n"+buffer.String(), nil)
+			util.RandomFromArray(quips)+", "+message.Sender.FirstName+" "+util.RandomFromArray(answ)+"\n Those are my commands: \n"+buffer.String(), nil)
 	}
 }

@@ -19,15 +19,10 @@ func init() {
 
 func (m *AdminPlugin) OnStart() {
 	log.Println("[AdminPlugin] Started")
-	plugin_registry.RegisterCommand("enable <plugin>", "Load a specific plugin again in memory")
-	plugin_registry.RegisterCommand("disable <plugin>", "UnLoad a specific plugin in memory")
-	plugin_registry.RegisterCommand("listplugins", "List all plugins")
 }
 
 func (m *AdminPlugin) OnStop() {
-	plugin_registry.UnregisterCommand("enable <plugin>")
-	plugin_registry.UnregisterCommand("disable <plugin>")
-	plugin_registry.UnregisterCommand("listplugins")
+	log.Println("[AdminPlugin] Stop")
 }
 
 func (m *AdminPlugin) Run(message telebot.Message) {
@@ -36,6 +31,11 @@ func (m *AdminPlugin) Run(message telebot.Message) {
 	if config.IsAdmin(message.Sender.Username) == false {
 		log.Println("!!!!!!!! " + message.Sender.Username + " !!!!!!!! Attempted to use administration commands!")
 		return
+	}
+
+	if message.Text == config.CommandPrefix+"help" {
+		bot.SendMessage(message.Chat, "👑 👑 👑 👑 HAIL TO THE KING 👑 👑 👑 👑 \n- Admin commands - \n\t"+config.CommandPrefix+"enable <plugin> - Load a specific plugin again in memory\n\t"+config.CommandPrefix+"disable <plugin> - UnLoad a specific plugin in memory\n\t"+config.CommandPrefix+"listplugins - List all plugins\n", nil)
+
 	}
 
 	if message.Text == config.CommandPrefix+"listplugins" {
