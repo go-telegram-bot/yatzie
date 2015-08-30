@@ -29,7 +29,6 @@ func (m *AdminPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config
 	if config.IsAdmin(message.Sender.Username) == false {
-		log.Println("!!!!!!!! " + message.Sender.Username + " !!!!!!!! Attempted to use administration commands!")
 		return
 	}
 

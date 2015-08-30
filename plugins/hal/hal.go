@@ -90,12 +90,15 @@ func loadHAL(m *HalPlugin) {
 	if plugin_registry.Config.HALBrainfile != "" {
 		brainFile = plugin_registry.Config.HALBrainfile
 	}
+	brainFile = strings.Replace(brainFile, ".json", "", -1)
+
 	if plugin_registry.Config.HALMarkovChainOrder != 0 {
 		m.MarkovChainOrder = plugin_registry.Config.HALMarkovChainOrder
 	}
 	var brain *microhal.Microhal
 	log.Println("My brainfile is:" + brainFile)
-	if _, err := os.Stat(brainFile); os.IsNotExist(err) {
+
+	if _, err := os.Stat(brainFile + ".json"); os.IsNotExist(err) {
 		brain = microhal.NewMicrohal(brainFile, m.MarkovChainOrder)
 	} else {
 		brain = microhal.LoadMicrohal(brainFile)
