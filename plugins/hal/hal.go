@@ -3,40 +3,18 @@
 package hal
 
 import (
-	"github.com/freahs/microhal"
+	cobe "github.com/mudler/go.cobe"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	"github.com/tucnak/telebot"
 
 	"log"
-	"os"
 	"strings"
-	"time"
 )
 
-var quips = []string{
-	"FOR SCIENCE!",
-	"because... reasons.",
-	"it's super effective!",
-	"because... why not?",
-	"was it good for you?",
-	"given the alternative, yep, worth it!",
-	"don't ask...",
-	"then makes a sandwich.",
-	"oh noes!",
-	"did I do that?",
-	"why must you turn this place into a house of lies!",
-	"really???",
-	"LLLLEEEEEERRRRRROOOOYYYY JEEEENNNKINNNS!",
-	"DOH!",
-	"Giggity!",
-}
 
 type HalPlugin struct {
-	brainIn          chan<- string
-	brainOut         <-chan string
-	started          bool
-	MarkovChainOrder int
+	Brain *cobe.Cobe2Brain
 }
 
 func init() {
@@ -44,67 +22,28 @@ func init() {
 }
 
 func (m *HalPlugin) OnStart() {
-	if m.started == false {
-		loadHAL(m)
+	b, err := cobe.OpenCobe2Brain(plugin_registry.Config.BrainFile)
+	m.Brain = b
+	if err != nil {
+		log.Fatalf("Opening brain file: %s", err)
 	}
-	if m.started == true {
-		log.Println("[HalPlugin] Started")
-	} else {
-		log.Println("[HalPlugin] Something went really wrong, please check if you have correctly configured the HAL plugin")
-
-	}
+	log.Println("[HalPlugin] Started")
 }
 
 func (m *HalPlugin) OnStop() {
-	if m.started == true {
 		log.Println("[HalPlugin] Disabled")
-	}
 }
 
 func (m *HalPlugin) Run(message telebot.Message) {
 	bot := plugin_registry.Bot
 	config := plugin_registry.Config
+
 	if !strings.HasPrefix(message.Text, config.CommandPrefix) && !util.MatchAnyURL(message.Text) {
 		text := strings.Replace(message.Text, "@"+bot.Identity.Username, "", -1)
-		// then call hal for random answers
-		if len(text) > m.MarkovChainOrder {
-			m.brainIn <- text
-			res := <-m.brainOut
-			if res == "" && config.Eloquens == true {
-				bot.SendMessage(message.Chat, util.RandomFromArray(quips), nil)
-
-			} else {
-				bot.SendMessage(message.Chat,
-					res, nil)
-
-			}
-		} else {
-			bot.SendMessage(message.Chat, util.RandomFromArray(quips), nil)
+		m.Brain.Learn(text)
+		if message.IsPersonal() || strings.Contains(message.Text,"@"+bot.Identity.Username) {
+			bot.SendMessage(message.Chat, m.Brain.Reply(text), nil)
 		}
-	}
-}
 
-func loadHAL(m *HalPlugin) {
-	brainFile := "Brain"
-	m.MarkovChainOrder = 3 // our default
-	if plugin_registry.Config.HALBrainfile != "" {
-		brainFile = plugin_registry.Config.HALBrainfile
 	}
-	brainFile = strings.Replace(brainFile, ".json", "", -1)
-
-	if plugin_registry.Config.HALMarkovChainOrder != 0 {
-		m.MarkovChainOrder = plugin_registry.Config.HALMarkovChainOrder
-	}
-	var brain *microhal.Microhal
-	log.Println("My brainfile is:" + brainFile)
-
-	if _, err := os.Stat(brainFile + ".json"); os.IsNotExist(err) {
-		brain = microhal.NewMicrohal(brainFile, m.MarkovChainOrder)
-	} else {
-		brain = microhal.LoadMicrohal(brainFile)
-	}
-	brainIn, brainOut := brain.Start(10000*time.Millisecond, 250)
-	m.brainIn = brainIn
-	m.brainOut = brainOut
-	m.started = true
 }

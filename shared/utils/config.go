@@ -10,9 +10,7 @@ import (
 type Config struct {
 	Token               string
 	CommandPrefix       string
-	Eloquens            bool
-	HALBrainfile        string
-	HALMarkovChainOrder int
+	BrainFile        string
 	Administrators      map[string]bool
 }
 

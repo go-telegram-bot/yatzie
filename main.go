@@ -73,8 +73,7 @@ func main() {
 		return
 	}
 
-	messages := make(chan telebot.Message)
-	bot.Listen(messages, 1*time.Second)
+
 	plugin_registry.Config = config
 	plugin_registry.Bot = bot
 
@@ -84,10 +83,33 @@ func main() {
 	}
 	log.Println(strconv.Itoa(len(plugin_registry.Plugins)) + " plugins loaded")
 
-	// Processing messages
-	for message := range messages {
-		for _, d := range plugin_registry.Plugins {
-			go d.Run(message)
-		}
-	}
+
+	bot.Messages = make(chan telebot.Message, 100)
+	bot.Queries = make(chan telebot.Query, 1000)
+
+	go messages(bot)
+	go queries(bot)
+
+	bot.Start(1 * time.Second)
+}
+
+
+func messages(bot *telebot.Bot) {
+    for message := range bot.Messages {
+			for _, d := range plugin_registry.Plugins {
+				go d.Run(message)
+			}
+    }
+}
+
+func queries(bot *telebot.Bot) {
+    for query := range bot.Queries {
+			for _, d := range plugin_registry.Plugins {
+				if obj, ok := d.(interface {
+					Query(telebot.Query)
+				}); ok {
+					go obj.Query(query)
+				}
+			}
+    }
 }
