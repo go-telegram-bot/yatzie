@@ -4,7 +4,7 @@
 
 A customizable, pluggable Bot for telegram. Work in progress.
 
-## Demo bot: [@hella_bot](https://telegram.me/hella_bot)
+## Demo bot: [@yatzie_bot](https://telegram.me/yatzie_bot)
 
 
 Bot Commands
