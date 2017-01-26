@@ -23,7 +23,9 @@ func (m *DogrPlugin) OnStart() {
 }
 
 func (m *DogrPlugin) OnStop() {
-	log.Println("[DogrPlugin] Started")
+	log.Println("[DogrPlugin] Stopped")
+	plugin_registry.UnregisterCommand("doge")
+
 }
 
 func (m *DogrPlugin) Run(message telebot.Message) {

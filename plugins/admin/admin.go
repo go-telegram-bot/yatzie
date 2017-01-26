@@ -3,12 +3,16 @@ package admin
 import (
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
-
-	"github.com/tucnak/telebot"
+	"github.com/inconshreveable/go-update"
 
 	"bytes"
+	"github.com/tucnak/telebot"
 	"log"
+	"net/http"
+	"os"
+	"os/exec"
 	"strings"
+	"syscall"
 )
 
 type AdminPlugin struct{}
@@ -56,8 +60,66 @@ func (m *AdminPlugin) Run(message telebot.Message) {
 
 		}
 		ListPlugins(message, bot)
-
 	}
+
+	if strings.Contains(message.Text, config.CommandPrefix+"update") {
+		url := util.StripPluginCommand(message.Text, config.CommandPrefix, "update")
+		if url != "" {
+			bot.SendMessage(message.Chat, "Upgrading with "+url, nil)
+			err := doUpdate(url)
+			if err != nil {
+				bot.SendMessage(message.Chat, err.Error(), nil)
+			} else {
+				bot.SendMessage(message.Chat, "Everything went OK :)", nil)
+				ForkExec()
+				bot.SendMessage(message.Chat, "If all went straight you should see me again", nil)
+				os.Exit(0)
+			}
+		}
+	}
+}
+
+func doUpdate(url string) error {
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	err = update.Apply(resp.Body, update.Options{})
+	return err
+}
+
+func lookPath() (argv0 string, err error) {
+	argv0, err = exec.LookPath(os.Args[0])
+	if nil != err {
+		return
+	}
+	if _, err = os.Stat(argv0); nil != err {
+		return
+	}
+	return
+}
+
+func ForkExec() error {
+	argv0, err := lookPath()
+	if nil != err {
+		return err
+	}
+	wd, err := os.Getwd()
+	if nil != err {
+		return err
+	}
+
+	p, err := os.StartProcess(argv0, os.Args, &os.ProcAttr{
+		Dir: wd,
+		Sys: &syscall.SysProcAttr{},
+	})
+	if nil != err {
+		return err
+	}
+	log.Println("spawned child", p.Pid)
+
+	return nil
 }
 
 func ListPlugins(message telebot.Message, bot *telebot.Bot) {

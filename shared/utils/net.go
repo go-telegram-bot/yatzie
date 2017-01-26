@@ -30,8 +30,10 @@ func SendPhoto(url string, message telebot.Message, bot *telebot.Bot) error {
 	}
 	defer os.Remove(imagefile)
 
-	var photo = telebot.Photo{}
-	photo.Thumbnail.File, err = telebot.NewFile(imagefile)
+	photo, err := telebot.NewFile(imagefile)
+
+	//	var photo = telebot.Photo{}
+	//	photo.Thumbnail.File, err = telebot.NewFile(imagefile)
 	if err != nil {
 		log.Println("Error creating the new file ")
 		log.Println(err)
@@ -40,8 +42,9 @@ func SendPhoto(url string, message telebot.Message, bot *telebot.Bot) error {
 		return err
 	}
 	//photo.filename=imagefile
+	picture := telebot.Photo{File: photo}
 
-	err = bot.SendPhoto(message.Chat, &photo, nil)
+	err = bot.SendPhoto(message.Chat, &picture, nil)
 	if err != nil {
 		log.Println("Error sending photo")
 		log.Println(err)

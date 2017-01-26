@@ -8,10 +8,10 @@ import (
 
 //Configuration needed for plugins and bot
 type Config struct {
-	Token               string
-	CommandPrefix       string
-	BrainFile        string
-	Administrators      map[string]bool
+	Token          string
+	CommandPrefix  string
+	BrainFile      string
+	Administrators map[string]bool
 }
 
 func (c *Config) IsAdmin(user string) bool {

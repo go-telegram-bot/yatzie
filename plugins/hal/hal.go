@@ -3,15 +3,14 @@
 package hal
 
 import (
-	cobe "github.com/mudler/go.cobe"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
+	cobe "github.com/mudler/go.cobe"
 	"github.com/tucnak/telebot"
 
 	"log"
 	"strings"
 )
-
 
 type HalPlugin struct {
 	Brain *cobe.Cobe2Brain
@@ -31,7 +30,7 @@ func (m *HalPlugin) OnStart() {
 }
 
 func (m *HalPlugin) OnStop() {
-		log.Println("[HalPlugin] Disabled")
+	log.Println("[HalPlugin] Disabled")
 }
 
 func (m *HalPlugin) Run(message telebot.Message) {
@@ -40,8 +39,9 @@ func (m *HalPlugin) Run(message telebot.Message) {
 
 	if !strings.HasPrefix(message.Text, config.CommandPrefix) && !util.MatchAnyURL(message.Text) {
 		text := strings.Replace(message.Text, "@"+bot.Identity.Username, "", -1)
+		log.Println("[HalPlugin] Learning " + text)
 		m.Brain.Learn(text)
-		if message.IsPersonal() || strings.Contains(message.Text,"@"+bot.Identity.Username) {
+		if message.IsPersonal() || strings.Contains(message.Text, "@"+bot.Identity.Username) {
 			bot.SendMessage(message.Chat, m.Brain.Reply(text), nil)
 		}
 
