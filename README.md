@@ -105,9 +105,7 @@ The bot reads a json file for configuration:
 
 * **Token**: required - Telegram's Botfather will give you one
 * **CommandPrefix** - optional, you can change /help in !help for example
-* **Eloquens** - optional, being talkative
-* **HALBrainfile** - optional, it's for the HAL plugin (where the bot brain will reside)
-* **HALMarkovChainOrder** - optional, it's for the HAL plugin, tweaks the MC construction
+* **BrainFile** - it's the base name for the brain database
 
 # Run
 
