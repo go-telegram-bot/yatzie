@@ -95,9 +95,7 @@ The bot reads a json file for configuration:
 {
         "Token" : "XXXXXXX",
         "CommandPrefix" : "/",
-        "Eloquens" : true,
-        "HALBrainfile" : "Brain.json",
-        "HALMarkovChainOrder" : 3,
+        "BrainFile" : "Brain",
         "Administrators" : {
             "telegramusername" : true,
             "telegramusername2" : true
