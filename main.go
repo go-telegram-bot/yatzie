@@ -13,9 +13,9 @@ import (
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/8ball"
 	_ "github.com/go-telegram-bot/yatzie/plugins/admin"
+	_ "github.com/go-telegram-bot/yatzie/plugins/ddg"
 	_ "github.com/go-telegram-bot/yatzie/plugins/dogr"
 	_ "github.com/go-telegram-bot/yatzie/plugins/echo"
-	_ "github.com/go-telegram-bot/yatzie/plugins/google"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hal"
 	_ "github.com/go-telegram-bot/yatzie/plugins/hello"
 	_ "github.com/go-telegram-bot/yatzie/plugins/help"
