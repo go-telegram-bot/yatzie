@@ -50,57 +50,16 @@ func (m *NSFWPlugin) Run(message telebot.Message) {
 	config := plugin_registry.Config
 	if message.Text == config.CommandPrefix+"butts" {
 
-		util.DecodeJson("http://api.obutts.ru/noise/1", func(body io.ReadCloser) bool {
-			var data ImagesJson
-			err := json.NewDecoder(body).Decode(&data)
-			url := "http://media.obutts.ru/"
-
-			for _, i := range data {
-				//bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
-				util.SendPhoto(url+strings.Replace(i.Preview, "_preview", "", -1), message, bot)
-
-			}
-
-			if err != nil {
-				return false
-			} else {
-				return true
-			}
-		})
+		SendNSFWButt(message, bot)
 
 	}
 
 	if message.Text == config.CommandPrefix+"hentai" {
+
+		SendNSFWHentai(message, bot)
 		//boobs, _ := getHentai("http://danbooru.donmai.us/posts.json")
 		//boobs2, _ := getHentai("http://danbooru.donmai.us/explore/posts/popular.json")
 
-		util.DecodeJson("http://danbooru.donmai.us/posts.json", func(body io.ReadCloser) bool {
-			var data HentaiJson
-			err := json.NewDecoder(body).Decode(&data)
-			url := "http://danbooru.donmai.us"
-
-			util.SendPhoto(url+data[rand.Intn(len(data))].Url, message, bot)
-
-			if err != nil {
-				return false
-			} else {
-				return true
-			}
-		})
-
-		util.DecodeJson("http://danbooru.donmai.us/explore/posts/popular.json", func(body io.ReadCloser) bool {
-			var data HentaiJson
-			err := json.NewDecoder(body).Decode(&data)
-			url := "http://danbooru.donmai.us"
-
-			util.SendPhoto(url+data[rand.Intn(len(data))].Url, message, bot)
-
-			if err != nil {
-				return false
-			} else {
-				return true
-			}
-		})
 		/*
 			unionboobs := make(HentaiJson, len(boobs)+len(boobs2))
 			copy(unionboobs, boobs)
@@ -114,23 +73,78 @@ func (m *NSFWPlugin) Run(message telebot.Message) {
 
 	if message.Text == config.CommandPrefix+"boobs" {
 
-		util.DecodeJson("http://api.oboobs.ru/noise/1", func(body io.ReadCloser) bool {
-			var data ImagesJson
-			err := json.NewDecoder(body).Decode(&data)
-			url := "http://media.oboobs.ru/"
-
-			for _, i := range data {
-				//bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
-				util.SendPhoto(url+strings.Replace(i.Preview, "_preview", "", -1), message, bot)
-
-			}
-
-			if err != nil {
-				return false
-			} else {
-				return true
-			}
-		})
+		SendNSFWBoob(message, bot)
 
 	}
+}
+
+func SendNSFWBoob(message telebot.Message, bot *telebot.Bot) {
+	util.DecodeJson("http://api.oboobs.ru/noise/1", func(body io.ReadCloser) bool {
+		var data ImagesJson
+		err := json.NewDecoder(body).Decode(&data)
+		url := "http://media.oboobs.ru/"
+
+		for _, i := range data {
+			//bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
+			util.SendPhoto(url+strings.Replace(i.Preview, "_preview", "", -1), message, bot)
+
+		}
+
+		if err != nil {
+			return false
+		} else {
+			return true
+		}
+	})
+}
+
+func SendNSFWButt(message telebot.Message, bot *telebot.Bot) {
+	util.DecodeJson("http://api.obutts.ru/noise/1", func(body io.ReadCloser) bool {
+		var data ImagesJson
+		err := json.NewDecoder(body).Decode(&data)
+		url := "http://media.obutts.ru/"
+
+		for _, i := range data {
+			//bot.SendMessage(message.Chat, url+strings.Replace(i.Preview, "_preview", "", -1), nil)
+			util.SendPhoto(url+strings.Replace(i.Preview, "_preview", "", -1), message, bot)
+
+		}
+
+		if err != nil {
+			return false
+		}
+		return true
+
+	})
+}
+
+func SendNSFWHentai(message telebot.Message, bot *telebot.Bot) {
+
+	util.DecodeJson("http://danbooru.donmai.us/posts.json", func(body io.ReadCloser) bool {
+		var data HentaiJson
+		err := json.NewDecoder(body).Decode(&data)
+		url := "http://danbooru.donmai.us"
+
+		util.SendPhoto(url+data[rand.Intn(len(data))].Url, message, bot)
+
+		if err != nil {
+			return false
+		}
+		return true
+
+	})
+
+	util.DecodeJson("http://danbooru.donmai.us/explore/posts/popular.json", func(body io.ReadCloser) bool {
+		var data HentaiJson
+		err := json.NewDecoder(body).Decode(&data)
+		url := "http://danbooru.donmai.us"
+
+		util.SendPhoto(url+data[rand.Intn(len(data))].Url, message, bot)
+
+		if err != nil {
+			return false
+		}
+		return true
+
+	})
 }

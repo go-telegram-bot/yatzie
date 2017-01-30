@@ -20,8 +20,7 @@ type Joke struct {
 	Categories []string `json:"categories"`
 }
 
-type NorrisPlugin struct {
-}
+type NorrisPlugin struct{}
 
 func init() {
 	plugin_registry.RegisterPlugin(&NorrisPlugin{})

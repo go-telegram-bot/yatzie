@@ -44,7 +44,8 @@ func (m *GagPlugin) Run(message telebot.Message) {
 		if err != nil {
 			//bot.SendMessage(message.Chat, strings.Replace(gags[rand.Intn(len(gags))].Src, `\/`, "/", -1), nil)
 			util.SendPhoto(strings.Replace(gags[rand.Intn(len(gags))].Src, `\/`, "/", -1), message, bot)
-
+		} else {
+			log.Println("[9gag] error: %v", err)
 		}
 
 	}

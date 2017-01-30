@@ -1,16 +1,15 @@
 package main
 
+// Plugins gets automatically loaded on import
 import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"time"
 
-	"github.com/go-telegram-bot/yatzie/shared/registry"
+	"github.com/go-telegram-bot/yatzie/bot"
 	"github.com/go-telegram-bot/yatzie/shared/utils"
 	. "github.com/mattn/go-getopt"
-	"github.com/tucnak/telebot"
 
 	_ "github.com/go-telegram-bot/yatzie/plugins/8ball"
 	_ "github.com/go-telegram-bot/yatzie/plugins/admin"
@@ -60,7 +59,6 @@ func main() {
 		log.SetOutput(f)
 	}
 
-	bot, err := telebot.NewBot(config.Token)
 	if config.Token != "" {
 		fmt.Println("Token: " + config.Token)
 	}
@@ -69,44 +67,11 @@ func main() {
 		fmt.Println("Log file: " + logFile)
 	}
 
+	YatzieBot, err := yatziebot.NewBot(config)
 	if err != nil {
-		return
+		log.Fatal("error spawning bot: %v", err)
 	}
 
-	plugin_registry.Config = config
-	plugin_registry.Bot = bot
+	YatzieBot.Bot.Start(1 * time.Second)
 
-	// Bootstrapper for plugins
-	for _, d := range plugin_registry.Plugins {
-		go d.OnStart()
-	}
-	log.Println(strconv.Itoa(len(plugin_registry.Plugins)) + " plugins loaded")
-
-	bot.Messages = make(chan telebot.Message, 100)
-	bot.Queries = make(chan telebot.Query, 1000)
-
-	go messages(bot)
-	go queries(bot)
-
-	bot.Start(1 * time.Second)
-}
-
-func messages(bot *telebot.Bot) {
-	for message := range bot.Messages {
-		for _, d := range plugin_registry.Plugins {
-			go d.Run(message)
-		}
-	}
-}
-
-func queries(bot *telebot.Bot) {
-	for query := range bot.Queries {
-		for _, d := range plugin_registry.Plugins {
-			if obj, ok := d.(interface {
-				Query(telebot.Query)
-			}); ok {
-				go obj.Query(query)
-			}
-		}
-	}
 }
