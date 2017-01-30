@@ -10,6 +10,8 @@ import (
 type Config struct {
 	Token          string
 	CommandPrefix  string
+	RedditUser     string
+	RedditPassword string
 	BrainFile      string
 	Administrators map[string]bool
 }

@@ -22,6 +22,7 @@ import (
 	_ "github.com/go-telegram-bot/yatzie/plugins/imdb"
 	_ "github.com/go-telegram-bot/yatzie/plugins/norris"
 	_ "github.com/go-telegram-bot/yatzie/plugins/nsfw"
+	_ "github.com/go-telegram-bot/yatzie/plugins/reddit"
 	_ "github.com/go-telegram-bot/yatzie/plugins/xkcd"
 )
 

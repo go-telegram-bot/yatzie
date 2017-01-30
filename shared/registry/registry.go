@@ -10,7 +10,7 @@ import (
 )
 
 type TelegramPlugin interface {
-//	Run(message telebot.Message)
+	//	Run(message telebot.Message)
 	OnStart()
 	OnStop()
 }

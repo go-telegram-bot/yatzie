@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/ajanicij/goduckgo/goduckgo"
 	"github.com/go-telegram-bot/yatzie/shared/registry"
-  "github.com/go-telegram-bot/yatzie/shared/utils"
-  "github.com/tucnak/telebot"
+	"github.com/go-telegram-bot/yatzie/shared/utils"
+	"github.com/tucnak/telebot"
 
 	"log"
 	"strings"
@@ -20,23 +20,22 @@ func init() {
 func (m *DDGPlugin) OnStart() {
 	log.Println("[DDGPlugin] Started")
 
-plugin_registry.RegisterCommand("ddg", "Search in DuckDuckGo")
+	plugin_registry.RegisterCommand("ddg", "Search in DuckDuckGo")
 
 }
 
 func (m *DDGPlugin) OnStop() {
-log.Println("[DDGPlugin] Stopped")
-plugin_registry.UnregisterCommand("ddg")
+	log.Println("[DDGPlugin] Stopped")
+	plugin_registry.UnregisterCommand("ddg")
 }
 
 func (m *DDGPlugin) Run(bot *telebot.Bot, message telebot.Message) {
-config := plugin_registry.Config
-  if strings.Contains(message.Text, config.CommandPrefix+"ddg") {
+	config := plugin_registry.Config
+	if strings.Contains(message.Text, config.CommandPrefix+"ddg") {
 		args := util.StripPluginCommand(message.Text, config.CommandPrefix, "ddg")
-    bot.SendMessage(message.Chat, SearchCmd(args),nil)
+		bot.SendMessage(message.Chat, SearchCmd(args), nil)
 
-  }
-
+	}
 
 }
 
