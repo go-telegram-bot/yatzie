@@ -9,6 +9,8 @@ fmt:
 	@go fmt ./...
 
 build:
+	go get github.com/Masterminds/glide
+	glide install
 	@go build $(GOFLAGS) ./...
 
 install:

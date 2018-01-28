@@ -1,0 +1,28 @@
+package: .
+import:
+- package: github.com/ajanicij/goduckgo
+  subpackages:
+  - goduckgo
+- package: github.com/go-telegram-bot/yatzie
+  subpackages:
+  - bot
+  - plugins/8ball
+  - plugins/admin
+  - plugins/ddg
+  - plugins/dogr
+  - plugins/echo
+  - plugins/hal
+  - plugins/hello
+  - plugins/help
+  - plugins/imdb
+  - plugins/norris
+  - plugins/nsfw
+  - plugins/reddit
+  - plugins/xkcd
+  - shared/registry
+  - shared/utils
+- package: github.com/inconshreveable/go-update
+- package: github.com/jzelinskie/geddit
+- package: github.com/mattn/go-getopt
+- package: github.com/mudler/go.cobe
+- package: gopkg.in/tucnak/telebot.v1
